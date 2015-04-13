@@ -11,6 +11,7 @@
 .cache
 .history
 .lib/
+lib/
 .settings/
 dist/*
 target/
