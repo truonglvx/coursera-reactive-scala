@@ -1,10 +1,17 @@
 *.class
 *.log
 
+# mac os x
+.DS_Store
+
+# intellij ide
+.idea
+
 # sbt specific
 .cache
 .history
 .lib/
+.settings/
 dist/*
 target/
 lib_managed/
@@ -12,6 +19,5 @@ src_managed/
 project/boot/
 project/plugins/project/
 
-# Scala-IDE specific
-.scala_dependencies
-.worksheet
+# scala
+.classpath
