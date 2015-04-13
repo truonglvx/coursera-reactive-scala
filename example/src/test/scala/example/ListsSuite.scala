@@ -19,7 +19,7 @@ import org.scalatest.junit.JUnitRunner
  * inside eclipse using the built-in JUnit test runner.
  *
  * You have two options for running this test suite:
- * 
+ *
  * - Start the sbt console and run the "test" command
  * - Right-click this file in eclipse and chose "Run As" - "JUnit Test"
  */
@@ -29,7 +29,7 @@ class ListsSuite extends FunSuite {
    * Tests are written using the `test` operator which takes two arguments:
    *
    * - A description of the test. This description has to be unique, no two
-   *   tests can have the same description.
+   * tests can have the same description.
    * - The test body, a piece of Scala code that implements the test
    *
    * The most common way to implement a test body is using the method `assert`
@@ -95,9 +95,10 @@ class ListsSuite extends FunSuite {
    * Now we finally write some tests for the list functions that have to be
    * implemented for this assignment. We fist import all members of the
    * `List` object.
-   */ 
+   */
+
   import Lists._
-  
+
 
   /**
    * We only provide two very basic tests for you. Write more tests to make
@@ -111,7 +112,7 @@ class ListsSuite extends FunSuite {
    * every tested aspect of a method.
    */
   test("sum of a few numbers") {
-    assert(sum(List(1,2,0)) === 3)
+    assert(sum(List(1, 2, 0)) === 3)
   }
   test("max of a few numbers") {
     assert(max(List(3, 7, 2)) === 7)
