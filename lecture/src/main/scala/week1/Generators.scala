@@ -32,21 +32,21 @@ object Generators {
   val booleans2 = integers map { x => x > 0 }
   val booleans = integers.map(_ > 0)
 
-  def pairs[T, U](t: Generator[T], u: Generator[U]) = t flatMap {
-    x => u map { y => (x, y) }
-  }
-
-  def pairs[T, U](t: Generator[T], u: Generator[U]) = t flatMap {
-    x => new Generator[(T, U)] {
-      override def generate: (T, U) = (x, u.generate)
-    }
-  }
-
-  def pairs[T, U](t: Generator[T], u: Generator[U]) = new Generator[(T, U)] {
-    override def generate = new Generator[(T, U)] {
-      override def generate = (t.generate, u.generate)
-    }.generate
-  }
+//  def pairs[T, U](t: Generator[T], u: Generator[U]) = t flatMap {
+//    x => u map { y => (x, y) }
+//  }
+//
+//  def pairs[T, U](t: Generator[T], u: Generator[U]) = t flatMap {
+//    x => new Generator[(T, U)] {
+//      override def generate: (T, U) = (x, u.generate)
+//    }
+//  }
+//
+//  def pairs[T, U](t: Generator[T], u: Generator[U]) = new Generator[(T, U)] {
+//    override def generate = new Generator[(T, U)] {
+//      override def generate = (t.generate, u.generate)
+//    }.generate
+//  }
 
   def pairs[T, U](t: Generator[T], u: Generator[U]) = new Generator[(T, U)] {
     override def generate: (T, U) = (t.generate, u.generate)
