@@ -1,6 +1,6 @@
 package week2
 
-class Circuits extends Gates {
+abstract class Circuits extends Gates {
 
   def halfAdder(a: Wire, b: Wire, s: Wire, c: Wire): Unit = {
     val d = new Wire
