@@ -33,7 +33,7 @@ class Signal[T](expr: => T) {
 
   def apply() = {
     observers += caller.value
-    assert(!caller.value.observers.contains(this), "cyclic signal definition")
+    assert(!caller.value.observers.contains(this), "cyclic signal definition") // s() = s() + 1
     caller.value.observed ::= this
     myValue
   }
