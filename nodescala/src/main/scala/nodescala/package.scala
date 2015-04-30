@@ -68,7 +68,11 @@ package object nodescala {
 
     /** Creates a cancellable context for an execution and runs it.
      */
-    def run()(f: CancellationToken => Future[Unit]): Subscription = ???
+    def run()(f: CancellationToken => Future[Unit]): Subscription = {
+      val cancellationTokenSource = CancellationTokenSource()
+      f(cancellationTokenSource.cancellationToken)
+      cancellationTokenSource
+    }
 
   }
 
@@ -84,7 +88,13 @@ package object nodescala {
      *  However, it is also non-deterministic -- it may throw or return a value
      *  depending on the current state of the `Future`.
      */
-    def now: T = ???
+    def now: T = f.value match {
+      case None => throw new NoSuchElementException
+      case Some(t) => t match {
+        case Success(s) => s
+        case _ => throw new NoSuchElementException
+      }
+    }
 
     /** Continues the computation of this future by taking the current future
      *  and mapping it into another future.
@@ -92,7 +102,20 @@ package object nodescala {
      *  The function `cont` is called only after the current future completes.
      *  The resulting future contains a value returned by `cont`.
      */
-    def continueWith[S](cont: Future[T] => S): Future[S] = ???
+    def continueWith[S](cont: Future[T] => S): Future[S] = {
+      val p = Promise[S]()
+
+      f onComplete {
+        case Failure(t) => p failure t
+        case Success(s) => try {
+          p success cont(f)
+        } catch {
+          case t: Exception => p failure t
+        }
+      }
+
+      p.future
+    }
 
     /** Continues the computation of this future by taking the result
      *  of the current future and mapping it into another future.
@@ -100,7 +123,20 @@ package object nodescala {
      *  The function `cont` is called only after the current future completes.
      *  The resulting future contains a value returned by `cont`.
      */
-    def continue[S](cont: Try[T] => S): Future[S] = ???
+    def continue[S](cont: Try[T] => S): Future[S] = {
+      val p = Promise[S]()
+
+      f onComplete {
+        case Failure(t) => p failure t
+        case Success(s) => try {
+          p success cont(Try(s))
+        } catch {
+          case t: Exception => p failure t
+        }
+      }
+
+      p.future
+    }
 
   }
 
