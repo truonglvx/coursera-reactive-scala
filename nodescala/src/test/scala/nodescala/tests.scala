@@ -20,6 +20,7 @@ class NodeScalaSuite extends FunSuite {
 
     assert(Await.result(always, 0 nanos) == 517)
   }
+
   test("A Future should never be completed") {
     val never = Future.never[Int]
 
@@ -29,6 +30,26 @@ class NodeScalaSuite extends FunSuite {
     } catch {
       case t: TimeoutException => // ok!
     }
+  }
+
+  test("List of futures should all be future of same list") {
+    val list = List(Future(1), Future(2))
+
+    val resultFuture: Future[List[Int]] = Future.all(list)
+
+    val result = Await.result(resultFuture, 0 nanos)
+    assert(result.size == 2)
+    assert(result.head == 1)
+    assert(result.tail.head == 2)
+  }
+
+  test("Should return any one included in the list of futures") {
+    val list = List(Future { 1 }, Future { 2 }, Future { throw new Exception })
+
+    val resultFuture = Future.any(list)
+    val result = Await.result(resultFuture, 0 nanos)
+
+    assert(List(1, 2).contains(result))
   }
 
   test("CancellationTokenSource should allow stopping the computation") {
