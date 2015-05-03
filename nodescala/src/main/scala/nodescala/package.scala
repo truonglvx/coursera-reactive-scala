@@ -138,6 +138,30 @@ package object nodescala {
       p.future
     }
 
+    /**
+     * This combinator should take the current future f and the target future that
+     * and produce a new future that is completed with the value of the f if and only if the that future completes successfully.
+     * If that does not complete successfully, the resulting future should be completed with its exception.
+     * @param that
+     * @tparam S
+     * @return
+     */
+    def ensuring[S](that: Future[S]): Future[T] = {
+      val p = Promise[T]()
+
+      f onComplete {
+        case tryValue =>
+          that onComplete {
+            case Success(_) =>
+              p.complete(tryValue)
+            case Failure(exception) =>
+              p.failure(exception)
+          }
+      }
+
+      p.future
+    }
+
   }
 
   /** Subscription objects are used to be able to unsubscribe
