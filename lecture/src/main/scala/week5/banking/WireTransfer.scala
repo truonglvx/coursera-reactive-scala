@@ -1,4 +1,4 @@
-package week5
+package week5.banking
 
 import akka.actor.{Actor, ActorRef}
 import akka.event.LoggingReceive

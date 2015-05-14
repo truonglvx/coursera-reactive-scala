@@ -1,4 +1,4 @@
-package week5
+package week5.actor
 
 import akka.actor.Actor
 

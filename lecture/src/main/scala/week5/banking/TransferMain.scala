@@ -1,6 +1,6 @@
-package week5
+package week5.banking
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
 import akka.event.LoggingReceive
 
 class TransferMain extends Actor {

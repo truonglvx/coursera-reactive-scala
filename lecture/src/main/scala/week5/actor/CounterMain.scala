@@ -1,6 +1,6 @@
-package week5
+package week5.actor
 
-import akka.actor.{Props, Actor}
+import akka.actor.{Actor, Props}
 
 class CounterMain extends Actor {
   var counter = context.actorOf(Props[Counter], "counter")
